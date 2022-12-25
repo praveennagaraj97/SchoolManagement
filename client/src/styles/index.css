@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-Nunito;
+  }
+}
+
+@layer utilities {
+  button:disabled,
+  button[disabled] {
+    @apply opacity-50 transform transition-all pointer-events-none;
+  }
+
+  input:disabled,
+  input[disabled] {
+    @apply opacity-50 transform transition-all pointer-events-none;
+  }
+
+  select:disabled,
+  select[disabled] {
+    @apply opacity-50 transform transition-all pointer-events-none;
+  }
+
+  .smooth-animate {
+    @apply transform transition-all duration-300;
+  }
+
+  .skeleton {
+    @apply animate-pulse opacity-80 bg-gray-300;
+  }
+
+  .action-btn {
+    @apply bg-blue-500 hover:bg-blue-700 text-gray-50 font-bold
+              rounded flex items-center space-x-2 smooth-animate;
+  }
+}
