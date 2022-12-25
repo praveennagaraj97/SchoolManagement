@@ -4,8 +4,10 @@ import useSWR, { mutate } from 'swr';
 import { ClassEntity } from '../../@types';
 import { Class } from '../../api-endpoints';
 import PortalCenterSlideInOutAnimation from '../../components/animation/portal-center-slide-in-out';
+import PortalSwipeInAndOut from '../../components/animation/portal-swipe-in-out';
 import ClassForm from '../../components/class/class-form';
 import ClassRoomCard from '../../components/class/class-room-card';
+import ManageClassTeacherAndStudents from '../../components/class/manage-class-teacher-and-student';
 import PortalContainer from '../../components/container/portal';
 import Portal from '../../components/portal';
 import PortalHeader from '../../components/portal/header';
@@ -22,14 +24,21 @@ const ManageClassView: FC = () => {
   const [editData, setEditData] = useState<ClassEntity | null>(null);
   const [showAddNew, setShowAddNew] = useState(false);
   const formViewRef = useRef<HTMLDivElement>(null);
+  const viewRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowResize(true);
+  const [manageTeacherAndStd, setManageTeacherAndStd] =
+    useState<ClassEntity | null>(null);
 
   useHandleClose(() => {
     setShowAddNew(false);
     setEditData(null);
   }, formViewRef);
 
-  async function add(data: Omit<ClassEntity, '_id'>): Promise<{
+  useHandleClose(() => {
+    setManageTeacherAndStd(null);
+  }, viewRef);
+
+  async function add(data: Omit<ClassEntity, '_id' | 'teacher'>): Promise<{
     message: any;
     type: ErrorTypes;
   }> {
@@ -49,7 +58,7 @@ const ManageClassView: FC = () => {
     }
   }
 
-  async function edit(data: Omit<ClassEntity, '_id'>): Promise<{
+  async function edit(data: Omit<ClassEntity, '_id' | 'teacher'>): Promise<{
     message: any;
     type: ErrorTypes;
   }> {
@@ -100,6 +109,7 @@ const ManageClassView: FC = () => {
               {...cls}
               onDeleteClick={() => handleDelete(cls._id)}
               onUpdateClick={() => setEditData(cls)}
+              onManageClick={() => setManageTeacherAndStd(cls)}
             />
           );
         })}
@@ -133,6 +143,33 @@ const ManageClassView: FC = () => {
               />
             </div>
           </PortalCenterSlideInOutAnimation>
+        </PortalContainer>
+      </Portal>
+
+      {/* Manage teacher and students */}
+      <Portal
+        shouldDisableBackgroundScroll={false}
+        showModal={manageTeacherAndStd !== null}
+      >
+        <PortalContainer>
+          <PortalSwipeInAndOut
+            ref={viewRef}
+            width={width}
+            className="sm:w-auto w-full sm:top-0 right-0 
+          bottom-0 bg-gray-50 rounded-l-xl shadow-2xl fixed border z-50 "
+          >
+            <div className="relative">
+              <div className="p-2 border-b shadow-lg rounded-xl">
+                <PortalHeader
+                  onClose={() => {
+                    setManageTeacherAndStd(null);
+                  }}
+                  title="Manage Class"
+                />
+              </div>
+              <ManageClassTeacherAndStudents data={manageTeacherAndStd} />
+            </div>
+          </PortalSwipeInAndOut>
         </PortalContainer>
       </Portal>
     </Fragment>

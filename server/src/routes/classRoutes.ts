@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { UserRoles } from '../@types/entity/user.entity';
 import {
+  assignTeacherToClass,
   classCount,
   createClass,
   deleteClass,
@@ -44,6 +45,13 @@ router.get(
   authMiddleware,
   accessProtectMiddleare([UserRoles.admin]),
   classCount,
+);
+
+router.post(
+  '/assign_teacher/:id',
+  authMiddleware,
+  accessProtectMiddleare([UserRoles.admin]),
+  assignTeacherToClass,
 );
 
 export default router;

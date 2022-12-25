@@ -38,6 +38,22 @@ const AdminView: FC = () => {
         description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloribus, incidunt sit. Similique illo velit magnam, nihil impedit delectus consequuntur obcaecati."
         btnName="Manage Students"
       />
+
+      {/* <OverviewCard
+        icon={<MdOutlineAssignmentInd size={24} />}
+        link="/student/class"
+        title={`Assign / Remove Student`}
+        description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloribus, incidunt sit. Similique illo velit magnam, nihil impedit delectus consequuntur obcaecati."
+        btnName="Assign / Remove"
+      />
+
+      <OverviewCard
+        icon={<MdAssignmentInd size={24} />}
+        link="/teacher/class"
+        title={`Assign / Remove Teacher`}
+        description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloribus, incidunt sit. Similique illo velit magnam, nihil impedit delectus consequuntur obcaecati."
+        btnName="Assign / Remove"
+      /> */}
     </div>
   );
 };

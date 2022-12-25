@@ -7,7 +7,7 @@ import useMessageStatusSetter, {
 import ResponseStatusTag from '../shared/response-status-tag';
 
 interface ClassFormProps {
-  onSubmit: (payload: Omit<ClassEntity, '_id'>) => Promise<{
+  onSubmit: (payload: Omit<ClassEntity, '_id' | 'teacher'>) => Promise<{
     message: any;
     type: ErrorTypes;
   }>;

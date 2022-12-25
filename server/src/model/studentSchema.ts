@@ -20,6 +20,10 @@ const studentSchema = new Schema<StudentEntity>(
       required: true,
       ref: 'User',
     },
+    class: {
+      type: Schema.Types.ObjectId,
+      ref: 'Class',
+    },
   },
   { versionKey: false },
 );

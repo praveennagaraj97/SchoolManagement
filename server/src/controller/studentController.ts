@@ -43,9 +43,23 @@ class StudentController {
     }
   };
 
-  studentsList: RequestHandler = async (_, res) => {
-    const docs = await StudentModel.find();
-    res.status(200).json({ message: 'Students list retrieved', results: docs });
+  studentsList: RequestHandler = async (req, res) => {
+    try {
+      const query: { [key: string]: any } = {};
+
+      if (req?.query?.class) {
+        query['class'] = req.query?.class as string;
+      }
+
+      const docs = await StudentModel.find(query);
+      res
+        .status(200)
+        .json({ message: 'Students list retrieved', results: docs });
+    } catch (error: any) {
+      res
+        .status(400)
+        .json({ message: error?.message || 'Something went wrong' });
+    }
   };
 
   updateStudent: RequestHandler<any, any, AddStudentDTO> = async (req, res) => {
@@ -101,7 +115,34 @@ class StudentController {
         .json({ message: error?.message || 'Something went wrong' });
     }
   };
+
+  assignClassToStudent: RequestHandler = async (req, res) => {
+    const student = req.params.id;
+
+    const { classId } = req.body;
+
+    if (!student || !classId) {
+      res.status(422).json({ message: 'Invalid input' });
+      return;
+    }
+
+    try {
+      await StudentModel.updateOne({ _id: student }, { class: classId });
+
+      res.status(204).send();
+    } catch (error: any) {
+      res
+        .status(400)
+        .json({ message: error?.message || 'Something went wrong' });
+    }
+  };
 }
 
-export const { addStudent, studentsList, updateStudent, count, deleteStudent } =
-  new StudentController();
+export const {
+  addStudent,
+  studentsList,
+  updateStudent,
+  count,
+  deleteStudent,
+  assignClassToStudent,
+} = new StudentController();

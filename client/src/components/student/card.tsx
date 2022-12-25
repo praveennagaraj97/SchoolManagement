@@ -48,7 +48,7 @@ const StudentCard: FC<
         <div className="border border-gray-50 py-1 px-2 bg-gray-200  rounded-l-md">
           Address
         </div>
-        <div className="border border-gray-50 py-1 px-2 bg-gray-200 whitespace-pre-wrap rounded-r-md overflow-hidden">
+        <div className="border border-gray-50 py-1 whitespace-nowrap px-2 bg-gray-200 rounded-r-md overflow-hidden">
           {address}
         </div>
       </div>

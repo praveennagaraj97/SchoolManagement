@@ -86,7 +86,43 @@ class ClassController {
     const count = await ClassModel.count();
     res.status(200).json({ count });
   };
+
+  assignTeacherToClass: RequestHandler = async (req, res) => {
+    const classId = req.params.id;
+
+    const { teacher } = req.body;
+
+    if (!teacher || !classId) {
+      res.status(422).json({ message: 'Invalid input' });
+      return;
+    }
+
+    try {
+      //Check if teacher is assign to other class
+      const count = await ClassModel.count({ teacher });
+      if (count > 0) {
+        res
+          .status(400)
+          .json({ message: 'This teacher is already assigned to other class' });
+        return;
+      }
+
+      await ClassModel.updateOne({ _id: classId }, { teacher });
+
+      res.status(204).send();
+    } catch (error: any) {
+      res
+        .status(400)
+        .json({ message: error?.message || 'Something went wrong' });
+    }
+  };
 }
 
-export const { createClass, getClasses, deleteClass, updateClass, classCount } =
-  new ClassController();
+export const {
+  createClass,
+  getClasses,
+  deleteClass,
+  updateClass,
+  classCount,
+  assignTeacherToClass,
+} = new ClassController();

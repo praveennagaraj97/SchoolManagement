@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { UserRoles } from '../@types/entity/user.entity';
 import {
   addStudent,
+  assignClassToStudent,
   count,
   deleteStudent,
   studentsList,
@@ -44,6 +45,13 @@ router.delete(
   authMiddleware,
   accessProtectMiddleare([UserRoles.admin]),
   deleteStudent,
+);
+
+router.post(
+  '/assign_class/:id',
+  authMiddleware,
+  accessProtectMiddleare([UserRoles.admin]),
+  assignClassToStudent,
 );
 
 export default router;

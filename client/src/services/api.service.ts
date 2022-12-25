@@ -5,7 +5,14 @@ import {
   TeacherEntity,
   UserEntity,
 } from '../@types';
-import { Class, LoginEndpoint, Student, Teacher } from '../api-endpoints';
+import {
+  AssignClassToStudent,
+  AssignClassToTeacher,
+  Class,
+  LoginEndpoint,
+  Student,
+  Teacher,
+} from '../api-endpoints';
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -20,14 +27,15 @@ const getAuthHeader = () => ({
 export const loginUser = <T = any>(email: string, password: string) =>
   axiosInstance.post<T>(LoginEndpoint, { email, password });
 
-export const addClass = <T = any>(payload: Omit<ClassEntity, '_id'>) =>
-  axiosInstance.post<T>(Class, payload, { headers: getAuthHeader() });
+export const addClass = <T = any>(
+  payload: Omit<ClassEntity, '_id' | 'teacher'>
+) => axiosInstance.post<T>(Class, payload, { headers: getAuthHeader() });
 
 export const deleteClass = <T = any>(id: string) =>
   axiosInstance.delete<T>(Class + `/${id}`, { headers: getAuthHeader() });
 
 export const editClass = <T = any>(
-  payload: Omit<ClassEntity, '_id'>,
+  payload: Omit<ClassEntity, '_id' | 'teacher'>,
   id: string
 ) =>
   axiosInstance.put<T>(Class + `/${id}`, payload, {
@@ -71,3 +79,21 @@ export const deleteStudent = <T = any>(id: string) =>
   axiosInstance.delete<T>(Student + `/${id}`, {
     headers: getAuthHeader(),
   });
+
+export const assignClassToTeacher = (teacherId: string, classId: string) =>
+  axiosInstance.post(
+    AssignClassToTeacher + `/${classId}`,
+    { teacher: teacherId },
+    {
+      headers: getAuthHeader(),
+    }
+  );
+
+export const assignClassToStudent = (studentId: string, classId: string) =>
+  axiosInstance.post(
+    AssignClassToStudent + `/${studentId}`,
+    { classId },
+    {
+      headers: getAuthHeader(),
+    }
+  );

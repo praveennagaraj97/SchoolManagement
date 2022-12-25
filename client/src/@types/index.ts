@@ -17,6 +17,7 @@ export interface ClassEntity {
   _id: string;
   name: string;
   capacity: number;
+  teacher: TeacherEntity;
 }
 
 export interface TeacherEntity {
@@ -36,4 +37,5 @@ export interface StudentEntity {
   gender: string;
   address: string;
   age: number;
+  class?: string;
 }

@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { MdDelete, MdEdit } from 'react-icons/md';
+import { MdDelete, MdEdit, MdManageAccounts } from 'react-icons/md';
 import { TfiBlackboard } from 'react-icons/tfi';
 import { ClassEntity } from '../../@types';
 import ConfirmModal from '../shared/confirm-modal';
@@ -8,8 +8,16 @@ const ClassRoomCard: FC<
   ClassEntity & {
     onDeleteClick: () => Promise<void>;
     onUpdateClick: () => void;
+    onManageClick: () => void;
   }
-> = ({ capacity, name, onDeleteClick, onUpdateClick }) => {
+> = ({
+  capacity,
+  name,
+  onDeleteClick,
+  onUpdateClick,
+  teacher,
+  onManageClick,
+}) => {
   const [showDelete, setShowDelete] = useState(false);
 
   return (
@@ -42,6 +50,14 @@ const ClassRoomCard: FC<
           {10}
         </div>
       </div>
+      <div className="grid grid-cols-2 text-sm mt-1">
+        <div className="border border-gray-50 py-1 px-2 bg-gray-200  rounded-l-md">
+          Teacher
+        </div>
+        <div className="border border-gray-50 py-1 px-2 bg-gray-200  rounded-r-md">
+          {teacher?.user?.name || 'Not Available'}
+        </div>
+      </div>
 
       <div className="flex space-x-3">
         <button
@@ -61,6 +77,14 @@ const ClassRoomCard: FC<
           <span>Delete</span>
         </button>
       </div>
+      <button
+        onClick={onManageClick}
+        className="bg-teal-400 text-sm rounded-md shadow-md shadow-teal-400/30 
+        w-full py-2 px-4 text-gray-50 flex space-x-1 items-center justify-center smooth-animate hover:bg-teal-600 mt-3"
+      >
+        <MdManageAccounts />
+        <span>Manage class teacher & students</span>
+      </button>
       {showDelete ? (
         <ConfirmModal
           isAsync
