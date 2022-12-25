@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import { AddStudentDTO } from '../@types/dto/student-dto';
+import { ClassModel } from '../model/classSchema';
 import { StudentModel } from '../model/studentSchema';
 import { UserModel } from '../model/userSchema';
 
@@ -136,6 +137,25 @@ class StudentController {
         .json({ message: error?.message || 'Something went wrong' });
     }
   };
+
+  myClass: RequestHandler = async (req, res) => {
+    const { id } = req;
+
+    try {
+      const student = await StudentModel.findOne({ user: id });
+
+      const classData = await ClassModel.findById(student?.class);
+      res.status(200).json({
+        capacity: classData?.capacity,
+        name: classData?.name,
+        teacher: classData?.teacher,
+      });
+    } catch (error: any) {
+      res
+        .status(400)
+        .json({ message: error?.message || 'Something went wrong' });
+    }
+  };
 }
 
 export const {
@@ -145,4 +165,5 @@ export const {
   count,
   deleteStudent,
   assignClassToStudent,
+  myClass,
 } = new StudentController();

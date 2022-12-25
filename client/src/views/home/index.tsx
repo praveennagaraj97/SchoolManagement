@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useUserStore } from '../../context/userContext';
 import AdminView from './admin';
+import Student from './student';
 import Teacher from './teacher';
 
 const HomeView: FC = () => {
@@ -14,7 +15,7 @@ const HomeView: FC = () => {
     return <Teacher />;
   }
 
-  return null;
+  return <Student />;
 };
 
 export default HomeView;

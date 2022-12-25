@@ -25,7 +25,7 @@ const Teacher: FC = () => {
   return (
     <Fragment>
       <div className="border-b pb-2 mb-6 flex justify-between space-x-2 items-center">
-        <h1 className="text-xl">Students</h1>
+        <h1 className="text-xl">My Students</h1>
       </div>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
         {data?.results?.map((student) => {

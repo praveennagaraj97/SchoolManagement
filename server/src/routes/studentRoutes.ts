@@ -5,6 +5,7 @@ import {
   assignClassToStudent,
   count,
   deleteStudent,
+  myClass,
   studentsList,
   updateStudent,
 } from '../controller/studentController';
@@ -52,6 +53,13 @@ router.post(
   authMiddleware,
   accessProtectMiddleare([UserRoles.admin]),
   assignClassToStudent,
+);
+
+router.get(
+  '/class',
+  authMiddleware,
+  accessProtectMiddleare([UserRoles.student]),
+  myClass,
 );
 
 export default router;
