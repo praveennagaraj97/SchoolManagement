@@ -44,14 +44,7 @@ const ClassRoomCard: FC<
           {capacity}
         </div>
       </div>
-      <div className="grid grid-cols-2 text-sm mt-1">
-        <div className="border border-gray-50 py-1 px-2 bg-gray-200  rounded-l-md">
-          Students
-        </div>
-        <div className="border border-gray-50 py-1 px-2 bg-gray-200  rounded-r-md">
-          {10}
-        </div>
-      </div>
+
       <div className="grid grid-cols-2 text-sm mt-1">
         <div className="border border-gray-50 py-1 px-2 bg-gray-200  rounded-l-md">
           Teacher
