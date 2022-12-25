@@ -4,8 +4,20 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { StudentEntity } from '../../@types';
 
 const StudentCard: FC<
-  StudentEntity & { onEditClick: () => void; onDeleteClick: () => void }
-> = ({ user, address, age, gender, onEditClick, onDeleteClick }) => {
+  StudentEntity & {
+    onEditClick: () => void;
+    onDeleteClick: () => void;
+    showOptions?: boolean;
+  }
+> = ({
+  user,
+  address,
+  age,
+  gender,
+  onEditClick,
+  onDeleteClick,
+  showOptions = true,
+}) => {
   return (
     <div className="border rounded-md shadow-md p-4">
       <div className="p-2 rounded-full mx-auto border-2 w-fit">
@@ -52,24 +64,28 @@ const StudentCard: FC<
           {address}
         </div>
       </div>
-      <div className="flex space-x-3">
-        <button
-          onClick={onEditClick}
-          className="bg-fuchsia-400 text-sm rounded-md shadow-md shadow-fuchsia-400/30 
+      {showOptions ? (
+        <div className="flex space-x-3">
+          <button
+            onClick={onEditClick}
+            className="bg-fuchsia-400 text-sm rounded-md shadow-md shadow-fuchsia-400/30 
         w-full py-2 px-4 text-gray-50 flex space-x-1 items-center justify-center smooth-animate hover:bg-fuchsia-600 mt-3"
-        >
-          <MdEdit />
-          <span>Edit</span>
-        </button>
-        <button
-          onClick={onDeleteClick}
-          className="bg-red-500 text-sm rounded-md shadow-md shadow-red-400/30 
+          >
+            <MdEdit />
+            <span>Edit</span>
+          </button>
+          <button
+            onClick={onDeleteClick}
+            className="bg-red-500 text-sm rounded-md shadow-md shadow-red-400/30 
         w-full py-2 px-4 text-gray-50 flex space-x-1 items-center justify-center smooth-animate hover:bg-red-700 mt-3"
-        >
-          <MdDelete />
-          <span>Delete</span>
-        </button>
-      </div>
+          >
+            <MdDelete />
+            <span>Delete</span>
+          </button>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

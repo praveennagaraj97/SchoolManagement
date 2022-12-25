@@ -1,5 +1,6 @@
 import { FC, Fragment, useRef, useState } from 'react';
 import { FaChalkboardTeacher } from 'react-icons/fa';
+import { ImSpinner2 } from 'react-icons/im';
 import useSWR, { mutate } from 'swr';
 import { TeacherEntity, UserEntity } from '../../@types';
 import { Teacher } from '../../api-endpoints';
@@ -23,7 +24,7 @@ import {
 
 const TeacherView: FC = () => {
   const { role } = useUserStore();
-  const { data } = useSWR<{ results: TeacherEntity[] }>(Teacher);
+  const { data, isLoading } = useSWR<{ results: TeacherEntity[] }>(Teacher);
   const [showAddNew, setShowAddNew] = useState(false);
   const { width } = useWindowResize(true);
   const viewRef = useRef<HTMLDivElement>(null);
@@ -91,6 +92,14 @@ const TeacherView: FC = () => {
     } catch (error) {}
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <ImSpinner2 size={32} className="animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       <div className="border-b pb-2 mb-6 flex justify-between space-x-2 items-center">
@@ -103,6 +112,7 @@ const TeacherView: FC = () => {
           <span>Add Teacher</span>
         </button>
       </div>
+      {!data?.results.length ? <h2>No Results found</h2> : ''}
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
         {data?.results?.map((teacher) => {
           return (

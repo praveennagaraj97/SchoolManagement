@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import { AddTeacherDTO } from '../@types/dto/teacher-dto';
+import { ClassModel } from '../model/classSchema';
+import { StudentModel } from '../model/studentSchema';
 import { TeacherModel } from '../model/teacherSchema';
 import { UserModel } from '../model/userSchema';
 
@@ -130,7 +132,31 @@ class TeacherController {
         .json({ message: error?.message || 'Something went wrong' });
     }
   };
+
+  getMyStudents: RequestHandler = async (req, res) => {
+    const { id } = req;
+
+    try {
+      const teacherData = await TeacherModel.findOne({ user: id });
+
+      const classData = await ClassModel.findOne({ teacher: teacherData?._id });
+
+      const students = await StudentModel.find({ class: classData?._id });
+
+      res.status(200).json({ results: students });
+    } catch (error: any) {
+      res
+        .status(400)
+        .json({ message: error?.message || 'Something went wrong' });
+    }
+  };
 }
 
-export const { addTeacher, teachersList, updateTeacher, count, deleteTeacher } =
-  new TeacherController();
+export const {
+  addTeacher,
+  teachersList,
+  updateTeacher,
+  count,
+  deleteTeacher,
+  getMyStudents,
+} = new TeacherController();

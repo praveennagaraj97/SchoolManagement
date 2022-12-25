@@ -4,6 +4,7 @@ import {
   addTeacher,
   count,
   deleteTeacher,
+  getMyStudents,
   teachersList,
   updateTeacher,
 } from '../controller/teacherController';
@@ -44,6 +45,13 @@ router.delete(
   authMiddleware,
   accessProtectMiddleare([UserRoles.admin]),
   deleteTeacher,
+);
+
+router.get(
+  '/student',
+  authMiddleware,
+  accessProtectMiddleare([UserRoles.teacher]),
+  getMyStudents,
 );
 
 export default router;

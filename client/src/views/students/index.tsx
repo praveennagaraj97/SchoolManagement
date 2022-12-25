@@ -1,4 +1,5 @@
 import { FC, Fragment, useRef, useState } from 'react';
+import { ImSpinner2 } from 'react-icons/im';
 import { IoMdPerson } from 'react-icons/io';
 import useSWR, { mutate } from 'swr';
 import { StudentEntity, UserEntity } from '../../@types';
@@ -23,7 +24,7 @@ import {
 
 const StudentsView: FC = () => {
   const { role } = useUserStore();
-  const { data } = useSWR<{ results: StudentEntity[] }>(Student);
+  const { data, isLoading } = useSWR<{ results: StudentEntity[] }>(Student);
   const [showAddNew, setShowAddNew] = useState(false);
   const { width } = useWindowResize(true);
   const viewRef = useRef<HTMLDivElement>(null);
@@ -91,6 +92,14 @@ const StudentsView: FC = () => {
     } catch (error) {}
   }
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <ImSpinner2 size={32} className="animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       <div className="border-b pb-2 mb-6 flex justify-between space-x-2 items-center">
@@ -103,6 +112,7 @@ const StudentsView: FC = () => {
           <span>Add Student</span>
         </button>
       </div>
+      {!data?.results.length ? <h2>No Results found</h2> : ''}
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
         {data?.results?.map((student) => {
           return (
